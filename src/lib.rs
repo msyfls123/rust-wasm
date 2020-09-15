@@ -7,12 +7,22 @@ use wasm_bindgen_futures::future_to_promise;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Request, RequestInit, RequestMode, Response, console};
 
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Date {
+    Int(i64),
+    String(String),
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Day {
     pub born_person: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub common_holiday: Option<String>,
     pub content: String,
-    pub date: String,
+    pub date: Date,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
     pub detailed_date: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub die_person: Option<String>,
@@ -20,10 +30,13 @@ pub struct Day {
     pub lunar_date: String,
     pub number_of_comments: String,
     pub pic: String,
+    pub profile_url: String,
     pub rating: String,
     pub related_information: String,
     pub suggestion: String,
     pub url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub week: Option<String>,
 }
 
 
